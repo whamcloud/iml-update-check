@@ -1,0 +1,16 @@
+[Unit]
+Description=IML Update Handler
+RefuseManualStart=true
+DefaultDependencies=false
+Requires=iml-update-handler.socket
+BindsTo=iml-update-handler.socket
+After=iml-update-handler.socket
+
+[Service]
+ExecStart=/usr/bin/node /usr/libexec/iml-update-handler.js
+StandardOutput=syslog
+User=nobody
+Group=nobody
+EnvironmentFile=/var/lib/chroma/iml-settings.conf 
+Environment=NODE_PATH=/usr/lib/node_modules
+Environment=IML_CA_PATH=/var/lib/chroma/authority.crt

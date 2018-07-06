@@ -1,0 +1,9 @@
+[Unit]
+Description=IML Software Update Check
+
+[Timer]
+OnCalendar=daily
+AccuracySec=6h
+
+[Install]
+WantedBy=timers.target
