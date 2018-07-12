@@ -2,7 +2,7 @@
 Description=IML Update Checker
 
 [Service]
-Type=onehot
+Type=oneshot
 ExecStart=/usr/bin/iml-update-check
 EnvironmentFile=/etc/iml/manager-url.conf
 Environment=IML_CERT_PATH=/etc/iml/self.crt IML_PRIVATE_KEY_PATH=/etc/iml/private.pem IML_REPO_PATH=/etc/yum.repos.d/Intel-Lustre-Agent.repo
