@@ -1,5 +1,7 @@
 [Unit]
 Description=IML Software Update Check
+PartOf=iml-storage-server.target
+After=network.target
 
 [Timer]
 OnCalendar=daily
@@ -7,3 +9,4 @@ AccuracySec=6h
 
 [Install]
 WantedBy=timers.target
+WantedBy=iml-storage-server.target

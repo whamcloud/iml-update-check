@@ -1,3 +1,8 @@
+[Unit]
+Description=IML Update Handler Socket
+PartOf=iml-manager.target
+Before=nginx.service
+
 [Socket]
 ListenStream=/var/run/iml-update-handler.sock
 RemoveOnStop=true

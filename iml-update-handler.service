@@ -8,7 +8,9 @@ After=iml-update-handler.socket
 
 [Service]
 ExecStart=/usr/bin/node /usr/libexec/iml-update-handler.js
-StandardOutput=syslog
+Restart=always
+StandardOutput=journal
+StandardError=journal
 User=nobody
 Group=nobody
 EnvironmentFile=/var/lib/chroma/iml-settings.conf 
