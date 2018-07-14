@@ -1,0 +1,13 @@
+sudo: required
+language: generic
+services:
+  - docker
+addons:
+    apt:
+      update: true
+jobs:
+  include:
+  - stage: test
+    env: Type='virus scan'
+    script:
+    - ./include/travis/virus-scan.sh
