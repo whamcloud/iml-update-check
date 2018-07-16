@@ -12,7 +12,7 @@ endif
 
 ifneq ($(filter iml_%,$(MAKECMDGOALS)),)
   COPR_CONFIG := --config include/copr-mfl
-  OWNER_PROJECT = managerforlustre/manager-for-lustre
+  OWNER_PROJECT = managerforlustre/manager-for-lustre-devel
 else
   # local settings
   -include copr-local.mk
@@ -72,7 +72,7 @@ else ifeq ($(BUILD_METHOD),SCM)
 copr_build iml_copr_build: $(PREREQ)
 	$(ECHO) copr-cli $(COPR_CONFIG) buildmock $(OWNER_PROJECT)       \
 		 --scm-type git                                  \
-		 --scm-url https://github.com/intel-hpdd/$(NAME)
+		 --scm-url https://github.com/whamcloud/$(NAME)
 else
 copr_build iml_copr_build: $(PREREQ)
 	$(ECHO) copr-cli $(COPR_CONFIG) build $(OWNER_PROJECT) $(filter-out \
