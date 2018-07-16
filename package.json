@@ -1,6 +1,6 @@
 {
   "name": "iml-update-handler",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "IML Handler for Update Checker",
   "main": "handler.js",
   "files": [ "iml-update-handler.*" ],
