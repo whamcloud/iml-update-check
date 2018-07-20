@@ -7,3 +7,4 @@ travis_env
 dist/
 _topdir/
 scm_version.py
+.vscode
