@@ -1,10 +1,7 @@
 [Unit]
 Description=IML Update Handler
 RefuseManualStart=true
-DefaultDependencies=false
-Requires=iml-update-handler.socket
 BindsTo=iml-update-handler.socket
-After=iml-update-handler.socket
 
 [Service]
 ExecStart=/usr/bin/node /usr/libexec/iml-update-handler.js
