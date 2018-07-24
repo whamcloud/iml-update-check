@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "IML Handler for Update Checker",
   "main": "handler.js",
-  "files": [ "iml-update-handler.*" ],
+  "files": [
+    "iml-update-handler.*"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,8 +18,7 @@
   "bugs": {
     "url": "https://github.com/whamcloud/iml-update-check/issues"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "homepage": "https://github.com/whamcloud/iml-update-check#readme",
   "devDependencies": {}
 }

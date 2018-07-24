@@ -6,12 +6,9 @@ const https = require("https");
 
 const ca = fs.readFileSync(process.env.IML_CA_PATH);
 
-const port =
-  process.env.LISTEN_PID > 0 ? { fd: 3 } : "/var/run/iml-update-handler.sock";
+const port = process.env.LISTEN_PID > 0 ? { fd: 3 } : 8080;
 
-const urlObj = url.parse(
-  url.resolve(process.env.SERVER_HTTP_URL, "api/updates_available/")
-);
+const urlObj = url.parse(url.resolve(process.env.SERVER_HTTP_URL, "api/updates_available/"));
 
 const config = Object.assign(
   {
@@ -37,7 +34,7 @@ http
       console.error(`Request Failed: ${err}`);
     });
 
-    const hn = req.headers["x-forwarded-host"];
+    const hn = req.headers["x-ssl-client-name"];
 
     req.on("data", d => {
       buff += d;
