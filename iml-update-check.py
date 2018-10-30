@@ -8,6 +8,7 @@ import os
 import sys
 import json
 from dnf import Base, exceptions
+from urlparse import urljoin
 
 # Disable insecure requests warning
 # So we don't break our syslog handler.
@@ -42,7 +43,7 @@ finally:
 print("Sending result, has updates: {0}".format(has_updates))
 
 resp = requests.post(
-    '{0}iml_has_package_updates'.format(os.environ['IML_MANAGER_URL']),
+    urljoin(os.environ['IML_MANAGER_URL'], 'iml_has_package_updates'),
     cert=(os.environ['IML_CERT_PATH'], os.environ['IML_PRIVATE_KEY_PATH']),
     verify=False,
     headers={'Content-Type': 'application/json'},
