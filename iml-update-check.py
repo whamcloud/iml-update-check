@@ -26,7 +26,7 @@ base.read_all_repos()
 base.fill_sack()
 
 
-def filter_unused(name):
+def filter_unused(base, ids, name):
     """Given a package name, determines if any of it's parents
     are installed, and that they come from an expected repo.
     """
@@ -45,7 +45,7 @@ repos = filter(lambda x: x.repofile == os.environ['IML_REPO_PATH'],
 ids = map(lambda x: x.id, repos)
 
 upgrades = base.sack.query().filter(reponame=ids).upgrades().latest().run()
-upgrades = filter(lambda x: filter_unused(x.name), upgrades)
+upgrades = filter(lambda x: filter_unused(base, ids, x.name), upgrades)
 
 map(base.package_upgrade, upgrades)
 
