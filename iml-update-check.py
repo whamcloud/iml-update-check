@@ -16,18 +16,36 @@ from urlparse import urljoin
 # self-signed certificates when we communicate between
 # the agent and manager.
 import urllib3
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 import requests
 
 base = Base()
 base.read_all_repos()
 base.fill_sack()
 
+
+def filter_unused(name):
+    """Given a package name, determines if any of it's parents
+    are installed, and that they come from an expected repo.
+    """
+    parent_names = [x.name for x in base.sack.query().filter(
+        reponame=ids).filter(requires=name).run()]
+
+    installed_parents = [x.from_repo.replace('@', '', 1) for x in base.sack.query().filter(
+        name=parent_names).installed().run()]
+
+    return any(x in ids for x in installed_parents)
+
+
 repos = filter(lambda x: x.repofile == os.environ['IML_REPO_PATH'],
                base.repos.all())
+
 ids = map(lambda x: x.id, repos)
 
 upgrades = base.sack.query().filter(reponame=ids).upgrades().latest().run()
+upgrades = filter(lambda x: filter_unused(x.name), upgrades)
 
 map(base.package_upgrade, upgrades)
 
