@@ -10,24 +10,41 @@ import json
 from dnf import Base, exceptions
 from urlparse import urljoin
 
+import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
 # Disable insecure requests warning
 # So we don't break our syslog handler.
 # This (disabled) warning is expected due to our use of
 # self-signed certificates when we communicate between
 # the agent and manager.
-import urllib3
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-import requests
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 base = Base()
 base.read_all_repos()
 base.fill_sack()
 
+
+def filter_unused(base, ids, name):
+    """Given a package name, determines if it or any of it's parents
+    are installed, and that they come from an expected repo.
+    """
+    names = [x.name for x in base.sack.query().filter(
+        reponame=ids).filter(requires=name).run()] + [name]
+
+    installed_parents = [x.from_repo.replace('@', '', 1) for x in base.sack.query().filter(
+        name=names).installed().run()]
+
+    return any(x in ids for x in installed_parents)
+
+
 repos = filter(lambda x: x.repofile == os.environ['IML_REPO_PATH'],
                base.repos.all())
+
 ids = map(lambda x: x.id, repos)
 
 upgrades = base.sack.query().filter(reponame=ids).upgrades().latest().run()
+upgrades = filter(lambda x: filter_unused(base, ids, x.name), upgrades)
 
 map(base.package_upgrade, upgrades)
 
