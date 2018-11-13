@@ -30,14 +30,14 @@ profile = config.get('settings', 'profile')
 
 packages = ['python2-iml-agent']
 
-if profile['packages']:
+if 'packages' in profile:
     packages += profile['packages']
 
 ypl = yp.doPackageLists(pkgnarrow=['updates'], patterns=packages, ignore_case=True)
 
 has_updates = len(ypl.updates) > 0
 
-if profile['bundles']:
+if 'bundles' in profile:
     for bundle in profile['bundles']:
         if bundle == 'external':
             continue
