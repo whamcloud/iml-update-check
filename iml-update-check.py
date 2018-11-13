@@ -33,7 +33,7 @@ packages = ['python2-iml-agent']
 if 'packages' in profile:
     packages += profile['packages']
 
-ypl = yp.doPackageLists(pkgnarrow=['updates'], patterns=packages, ignore_case=True)
+ypl = yp.doPackageLists(pkgnarrow='updates', patterns=packages, ignore_case=True)
 
 has_updates = len(ypl.updates) > 0
 
