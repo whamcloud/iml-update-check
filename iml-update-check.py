@@ -28,7 +28,10 @@ yp.doSackFilelistPopulate()
 
 profile = config.get('settings', 'profile')
 
-packages = ['python2-iml-agent'] + profile['packages']
+packages = ['python2-iml-agent']
+
+if profile['packages']:
+    packages += profile['packages']
 
 ypl = yp.doPackageLists(pkgnarrow=['updates'], patterns=packages, ignore_case=True)
 
