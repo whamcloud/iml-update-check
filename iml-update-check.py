@@ -5,15 +5,11 @@
 # license that can be found in the LICENSE file.
 
 import os
-import sys
 import json
-from yum import YumBase
 from urlparse import urljoin
-
 import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
-
-from chroma_agent import config
+from yum import YumBase
 
 # Disable insecure requests warning
 # So we don't break our syslog handler.
@@ -26,19 +22,17 @@ yp = YumBase()
 yp.getReposFromConfig()
 yp.doSackFilelistPopulate()
 
-profile = config.get('settings', 'profile')
-
 packages = ['python2-iml-agent']
 
-if 'packages' in profile:
-    packages += profile['packages']
+if 'IML_PROFILE_PACKAGES' in os.environ:
+    packages += os.environ['IML_PROFILE_PACKAGES'].split(',')
 
-ypl = yp.doPackageLists(pkgnarrow='updates', patterns=packages, ignore_case=True)
+ypl = yp.doPackageLists(pkgnarrow='updates', patterns=packages)
 
 has_updates = len(ypl.updates) > 0
 
-if 'bundles' in profile:
-    for bundle in profile['bundles']:
+if 'IML_PROFILE_REPOS' in os.environ:
+    for bundle in os.environ['IML_PROFILE_REPOS'].split(','):
         if bundle == 'external':
             continue
         ypl = yp.doPackageLists(pkgnarrow=['updates'], repoid=bundle)
@@ -53,4 +47,4 @@ resp = requests.post(
     headers={'Content-Type': 'application/json'},
     data=json.dumps(has_updates))
 
-print("Manager responded, status code: {0}".format(resp.status_code))
+print "Manager responded, status code: {0}".format(resp.status_code)
