@@ -84,6 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Apr 23 2019 Joe Grund <jgrund@whamcloud.com> - 1.0.1-1
 - Refactor packaging.
 - Use yum to scan.
+- Restart service after 5 minutes on failure.
 
 * Mon Jul  2 2018 Nathaniel Clark <nclark@whamcloud.com> - 0.1-1
 - Initial build.

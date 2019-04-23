@@ -1,5 +1,5 @@
 [Unit]
-Description=IML Software Update Check
+Description=IML Software Update Check timer
 PartOf=iml-storage-server.target
 After=network.target
 
