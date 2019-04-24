@@ -2,7 +2,6 @@
 Description=IML Update Checker
 
 [Service]
-Type=oneshot
 ExecStart=/usr/bin/iml-update-check
 EnvironmentFile=/etc/iml/manager-url.conf
 EnvironmentFile=/etc/iml/profile.conf
