@@ -1,22 +1,15 @@
-%{?!version: %global version @VERSION@}
-%{?!package_release: %global package_release @RELEASE@}
-
-
 Summary: IML Software Update Checker
-Name:	 iml-update-check
-Version: %{version}
-Release: %{package_release}%{?dist}
+Name: iml-update-check
+Version: 1.0.1
+# Release Start
+Release: 1%{?dist}
+# Release End
+
 License: MIT
 Group: Development/Libraries
-URL:  https://pypi.python.org/pypi/%{pypi_name}
-Source0: %{name}-%{version}.tar.gz
-Source1: iml-update-check.service
-Source2: iml-update-check.timer
-Source3: iml-update-handler.service
-Source4: iml-update-handler.socket
-Source5: handler.js
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-Requires: nodejs
+URL: https://github.com/whamcloud/iml-update-check
+Source0: iml-update-check.tar.gz
+
 %{?systemd_requires}
 BuildRequires: systemd
 BuildArch: noarch
@@ -37,7 +30,7 @@ Respond to update check information:
 - Lower Alert in IML if false
 
 %prep
-%setup -q
+%setup -qc
 
 %build
 # no build
@@ -45,12 +38,13 @@ Respond to update check information:
 %install
 rm -rf $RPM_BUILD_ROOT
 install -p -D -m 0755 iml-update-check.py $RPM_BUILD_ROOT/%{_bindir}/iml-update-check
-install -p -D %{SOURCE5} $RPM_BUILD_ROOT/%{_libexecdir}/iml-update-handler.js
+install -p -D handler.js $RPM_BUILD_ROOT/%{_libexecdir}/iml-update-handler.js
 mkdir -p $RPM_BUILD_ROOT/%{_unitdir}/
-cp %{SOURCE1} $RPM_BUILD_ROOT/%{_unitdir}/
-cp %{SOURCE2} $RPM_BUILD_ROOT/%{_unitdir}/
-cp %{SOURCE3} $RPM_BUILD_ROOT/%{_unitdir}/
-cp %{SOURCE4} $RPM_BUILD_ROOT/%{_unitdir}/
+
+cp iml-update-check.service $RPM_BUILD_ROOT/%{_unitdir}/
+cp iml-update-check.timer $RPM_BUILD_ROOT/%{_unitdir}/
+cp iml-update-handler.service $RPM_BUILD_ROOT/%{_unitdir}/
+cp iml-update-handler.socket $RPM_BUILD_ROOT/%{_unitdir}/
 
 
 %clean
@@ -87,6 +81,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/iml-update-handler.*
 
 %changelog
+* Tue Apr 23 2019 Joe Grund <jgrund@whamcloud.com> - 1.0.1-1
+- Refactor packaging.
+- Use yum to scan.
+- Restart service after 5 minutes on failure.
+
 * Mon Jul  2 2018 Nathaniel Clark <nclark@whamcloud.com> - 0.1-1
 - Initial build.
 

@@ -2,8 +2,9 @@
 Description=IML Update Checker
 
 [Service]
-Type=oneshot
 ExecStart=/usr/bin/iml-update-check
 EnvironmentFile=/etc/iml/manager-url.conf
 EnvironmentFile=/etc/iml/profile.conf
 Environment=IML_CERT_PATH=/etc/iml/self.crt IML_PRIVATE_KEY_PATH=/etc/iml/private.pem
+RestartSec=5min
+Restart=on-failure

@@ -1,7 +1,5 @@
 node_modules
 install_build_deps-stamp
-*~
-iml-update-check.spec
 travis_env
 *.tar.gz
 dist/
