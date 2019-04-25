@@ -4,6 +4,7 @@ PartOf=iml-storage-server.target
 After=network.target
 
 [Timer]
+OnActiveSec=10
 OnCalendar=daily
 AccuracySec=6h
 
