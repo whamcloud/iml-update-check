@@ -5,6 +5,7 @@ srpm:
 	mkdir -p ${TMPDIR}/_topdir/{SOURCES/iml-update-check,SPECS}
 	rm -rf ${BUILDROOT}/_topdir
 	cp iml-update-check.{service,timer} \
+    00-iml-update-check.preset \
 		iml-update-handler.{service,socket} \
 		iml-update-check.py \
 		handler.js \

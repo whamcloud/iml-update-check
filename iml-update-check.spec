@@ -39,13 +39,15 @@ Respond to update check information:
 rm -rf $RPM_BUILD_ROOT
 install -p -D -m 0755 iml-update-check.py $RPM_BUILD_ROOT/%{_bindir}/iml-update-check
 install -p -D handler.js $RPM_BUILD_ROOT/%{_libexecdir}/iml-update-handler.js
-mkdir -p $RPM_BUILD_ROOT/%{_unitdir}/
 
+mkdir -p $RPM_BUILD_ROOT/%{_unitdir}/
 cp iml-update-check.service $RPM_BUILD_ROOT/%{_unitdir}/
 cp iml-update-check.timer $RPM_BUILD_ROOT/%{_unitdir}/
 cp iml-update-handler.service $RPM_BUILD_ROOT/%{_unitdir}/
 cp iml-update-handler.socket $RPM_BUILD_ROOT/%{_unitdir}/
 
+mkdir -p %{buildroot}%{_presetdir}
+cp 00-iml-update-check.preset %{buildroot}%{_presetdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -57,7 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 %systemd_preun iml-update-check.timer iml-update-check.service
 
 %postun
-%systemd_postun iml-update-check.timer iml-update-check.service
+%systemd_postun_with_restart iml-update-check.timer iml-update-check.service
 
 %post -n iml-update-handler
 %systemd_post iml-update-handler.socket iml-update-handler.service
@@ -66,7 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 %systemd_preun iml-update-handler.socket iml-update-handler.service
 
 %postun -n iml-update-handler
-%systemd_postun iml-update-handler.socket iml-update-handler.service
+%systemd_postun_with_restart iml-update-handler.socket iml-update-handler.service
 
 
 %files
@@ -74,6 +76,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.md
 %{_bindir}/iml-update-check
 %{_unitdir}/iml-update-check.*
+%{_presetdir}/00-iml-update-check.preset
 
 %files -n iml-update-handler
 %defattr(-,root,root,-)
