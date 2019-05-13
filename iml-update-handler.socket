@@ -1,9 +1,6 @@
 [Unit]
 Description=IML Update Handler Socket
 PartOf=iml-manager.target
-Before=nginx.service
-After=iml-settings-populator.service
-Requires=iml-settings-populator.service
 
 [Socket]
 ListenStream=/var/run/iml-update-handler.sock
