@@ -1,6 +1,6 @@
 Summary: IML Software Update Checker
 Name: iml-update-check
-Version: 1.0.1
+Version: 1.0.2
 # Release Start
 Release: 1%{?dist}
 # Release End
@@ -84,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/iml-update-handler.*
 
 %changelog
+* Mon May 13 2019 Joe Grund <jgrund@whamcloud.com> - 1.0.2-1
+- Fix requirement on socket instead of service
+
 * Tue Apr 23 2019 Joe Grund <jgrund@whamcloud.com> - 1.0.1-1
 - Refactor packaging.
 - Use yum to scan.

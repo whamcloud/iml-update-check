@@ -2,6 +2,9 @@
 Description=IML Update Handler
 RefuseManualStart=true
 BindsTo=iml-update-handler.socket
+Before=nginx.service
+After=iml-settings-populator.service
+Requires=iml-settings-populator.service
 
 [Service]
 ExecStart=/usr/bin/node /usr/libexec/iml-update-handler.js
@@ -10,6 +13,6 @@ StandardOutput=journal
 StandardError=journal
 User=nobody
 Group=nobody
-EnvironmentFile=/var/lib/chroma/iml-settings.conf 
+EnvironmentFile=/var/lib/chroma/iml-settings.conf
 Environment=NODE_PATH=/usr/lib/node_modules
 Environment=IML_CA_PATH=/var/lib/chroma/authority.crt
