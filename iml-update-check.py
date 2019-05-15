@@ -18,29 +18,21 @@ from yum import YumBase
 # the agent and manager.
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-yp = YumBase()
-yp.preconf.debuglevel = 0
-yp.preconf.errorlevel = 0
-yp.getReposFromConfig()
-yp.doSackFilelistPopulate()
+yb = YumBase()
+yb.preconf.debuglevel = 0
+yb.preconf.errorlevel = 0
+yb.getReposFromConfigFile("/etc/yum.repos.d/Intel-Lustre-Agent.repo")
+repos = map(lambda x: x.id, yb._repos.listEnabled())
 
-packages = ["python2-iml-agent"]
+yb.cleanMetadata()
 
-if "IML_PROFILE_PACKAGES" in os.environ:
-    packages += os.environ["IML_PROFILE_PACKAGES"].split(",")
+has_updates = False
 
-ypl = yp.doPackageLists(pkgnarrow="updates", patterns=packages)
+for repo in repos:
+    ypl = yb.doPackageLists(pkgnarrow="updates", repoid=repo)
+    has_updates |= len(ypl.updates) > 0
 
-has_updates = len(ypl.updates) > 0
-
-if "IML_PROFILE_REPOS" in os.environ:
-    for bundle in os.environ["IML_PROFILE_REPOS"].split(","):
-        if bundle == "external":
-            continue
-        ypl = yp.doPackageLists(pkgnarrow=["updates"], repoid=bundle)
-        has_updates |= len(ypl.updates) > 0
-
-yp.close()
+yb.close()
 
 resp = requests.post(
     urljoin(os.environ["IML_MANAGER_URL"], "iml_has_package_updates"),
@@ -50,4 +42,5 @@ resp = requests.post(
     data=json.dumps(has_updates),
 )
 
+print("Found updates: {}".format(has_updates))
 print("Manager responded, status code: {0}".format(resp.status_code))
