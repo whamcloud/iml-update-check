@@ -30,7 +30,10 @@ has_updates = False
 
 for repo in repos:
     ypl = yb.doPackageLists(pkgnarrow="updates", repoid=repo)
-    has_updates |= len(ypl.updates) > 0
+    has_updates = len(ypl.updates) > 0
+
+    if has_updates:
+        break
 
 yb.close()
 
