@@ -21,6 +21,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 yp = YumBase()
 yp.preconf.debuglevel = 0
 yp.preconf.errorlevel = 0
+yp.doLock()
 yp.getReposFromConfig()
 yp.doSackFilelistPopulate()
 
@@ -41,6 +42,8 @@ if "IML_PROFILE_REPOS" in os.environ:
         has_updates |= len(ypl.updates) > 0
 
 yp.close()
+yp.closeRpmDB()
+yp.doUnlock()
 
 resp = requests.post(
     urljoin(os.environ["IML_MANAGER_URL"], "iml_has_package_updates"),
