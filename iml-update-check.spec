@@ -1,6 +1,6 @@
 Summary: IML Software Update Checker
 Name: iml-update-check
-Version: 1.0.2
+Version: 1.0.3
 # Release Start
 Release: 1%{?dist}
 # Release End
