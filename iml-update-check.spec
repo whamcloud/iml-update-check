@@ -58,9 +58,6 @@ rm -rf $RPM_BUILD_ROOT
 %preun
 %systemd_preun iml-update-check.timer iml-update-check.service
 
-%postun
-%systemd_postun_with_restart iml-update-check.timer iml-update-check.service
-
 %post -n iml-update-handler
 %systemd_post iml-update-handler.socket iml-update-handler.service
 
