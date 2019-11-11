@@ -2,7 +2,7 @@ Summary: IML Software Update Checker
 Name: iml-update-check
 Version: 1.0.2
 # Release Start
-Release: 1%{?dist}
+Release: 2%{?dist}
 # Release End
 
 License: MIT
@@ -58,9 +58,6 @@ rm -rf $RPM_BUILD_ROOT
 %preun
 %systemd_preun iml-update-check.timer iml-update-check.service
 
-%postun
-%systemd_postun_with_restart iml-update-check.timer iml-update-check.service
-
 %post -n iml-update-handler
 %systemd_post iml-update-handler.socket iml-update-handler.service
 
@@ -84,6 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_unitdir}/iml-update-handler.*
 
 %changelog
+* Sun Nov 10 2019 Joe Grund <jgrund@whamcloud.com> - 1.0.2-2
+- Remove postun scriptlet for agent side
+
 * Mon May 13 2019 Joe Grund <jgrund@whamcloud.com> - 1.0.2-1
 - Fix requirement on socket instead of service
 
